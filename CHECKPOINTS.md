@@ -192,12 +192,29 @@ GitHub remote: `https://github.com/EzhavaAdi/VEDA-Version-2.0.git` — configure
 
 | Check | Status |
 |---|---|
-| Local commit created | YES — `a6d7c95` (foundation) |
+| Local commit created | YES — `a6d7c95` (foundation), `a3898bf` (scaffold) |
 | Commit hash recorded | YES |
 | Annotated tag created | YES — `v2.0.0-foundation` |
-| Branch pushed | Pending — remote configured, push pending authentication |
-| Tag pushed | Pending |
-| Remote verified | Pending |
+| Branch pushed | **BLOCKED** — authentication mismatch (see below) |
+| Tag pushed | **BLOCKED** — same reason |
+| Remote verified | YES — `https://github.com/EzhavaAdi/VEDA-Version-2.0.git` |
+
+**Authentication issue:** Git is authenticated as `AdhishPrasad` but the target repository belongs to `EzhavaAdi`. To resolve, run one of the following before pushing:
+
+```powershell
+# Option A — GitHub CLI (recommended)
+gh auth login
+# Choose: GitHub.com → HTTPS → Login with a web browser
+# Then re-authenticate as EzhavaAdi
+
+# Option B — Git Credential Manager reset
+git credential reject
+# Re-enter EzhavaAdi credentials on next push
+
+# Once authenticated correctly:
+git push -u origin main
+git push origin v2.0.0-foundation
+```
 
 ### Known Issues and Blockers
 
