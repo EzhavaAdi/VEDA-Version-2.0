@@ -1,0 +1,206 @@
+# =============================================================================
+# VEDA V2 — .gitignore
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Environment and Secrets
+# -----------------------------------------------------------------------------
+.env
+.env.local
+.env.*.local
+*.env
+
+# -----------------------------------------------------------------------------
+# Python Virtual Environment
+# -----------------------------------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
+
+# -----------------------------------------------------------------------------
+# Python Cache and Build Artifacts
+# -----------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.Python
+
+# Distribution / Packaging
+dist/
+build/
+*.egg-info/
+*.egg
+.eggs/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+
+# -----------------------------------------------------------------------------
+# Django
+# -----------------------------------------------------------------------------
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Django media uploads (local dev)
+Backend/media/
+
+# Django static files (collected)
+Backend/staticfiles/
+Backend/static_collected/
+
+# -----------------------------------------------------------------------------
+# pytest and Testing
+# -----------------------------------------------------------------------------
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+*.hypothesis/
+
+# -----------------------------------------------------------------------------
+# Node.js and Frontend
+# -----------------------------------------------------------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+
+# Frontend build output
+Frontend/dist/
+Frontend/build/
+Frontend/.vite/
+
+# Vite cache
+.vite/
+
+# -----------------------------------------------------------------------------
+# AI / ML Artifacts
+# -----------------------------------------------------------------------------
+# Trained model binaries — do not commit without explicit approval
+Backend/ai_engine/models/*.pkl
+Backend/ai_engine/models/*.joblib
+Backend/ai_engine/models/*.pt
+Backend/ai_engine/models/*.pth
+Backend/ai_engine/models/*.h5
+Backend/ai_engine/models/*.onnx
+Backend/ai_engine/models/*.bin
+
+# Preprocessing artifacts
+Backend/ai_engine/preprocessing/*.pkl
+Backend/ai_engine/preprocessing/*.joblib
+
+# Evaluation outputs
+Backend/ai_engine/evaluation/*.png
+Backend/ai_engine/evaluation/*.svg
+Backend/ai_engine/evaluation/*.csv
+
+# -----------------------------------------------------------------------------
+# Private Datasets — NEVER commit raw or processed datasets
+# -----------------------------------------------------------------------------
+dataset/scania-aps/raw/
+dataset/scania-aps/processed/
+
+# Allow the description file and directory structure
+!dataset/scania-aps/aps_failure_description.txt
+
+# -----------------------------------------------------------------------------
+# 3D Model Conversions (preserve originals, exclude generated copies)
+# -----------------------------------------------------------------------------
+# Converted / exported model copies — only originals should be committed
+3-D model/converted/
+3-D model/exports/
+3-D model/*.converted.glb
+3-D model/*.converted.gltf
+
+# Proprietary 3ds Max binary files — licenses unverified, cannot be used in browser
+# engine.max and Kenwood.max must not be committed to the public repository
+# until their source and license terms are confirmed.
+# Kenwood.max is also 138.6 MB — Git LFS required if ever committed.
+3-D model/*.max
+
+# -----------------------------------------------------------------------------
+# IDE and Editor Files
+# -----------------------------------------------------------------------------
+.vscode/settings.json
+.vscode/launch.json
+.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.idea/
+*.iml
+*.iws
+
+# Kiro session files (if any generated artifacts)
+.kiro/sessions/
+
+# -----------------------------------------------------------------------------
+# OS Generated Files
+# -----------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# -----------------------------------------------------------------------------
+# Logs and Temporary Files
+# -----------------------------------------------------------------------------
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+
+# Local database dumps
+*.sql
+*.dump
+*.pg_dump
+
+# -----------------------------------------------------------------------------
+# PostgreSQL local data directory (if managed inside project)
+# -----------------------------------------------------------------------------
+pgdata/
+postgres-data/
+
+# -----------------------------------------------------------------------------
+# Uploaded files (local development)
+# -----------------------------------------------------------------------------
+uploads/
+media/
+
+# -----------------------------------------------------------------------------
+# Certificate and Key Files
+# -----------------------------------------------------------------------------
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# -----------------------------------------------------------------------------
+# Jupyter Notebooks (checkpoints only — keep .ipynb if needed)
+# -----------------------------------------------------------------------------
+.ipynb_checkpoints/
+
+# -----------------------------------------------------------------------------
+# Git LFS tracking configuration (add only after explicit decision)
+# -----------------------------------------------------------------------------
+# .gitattributes managed separately
