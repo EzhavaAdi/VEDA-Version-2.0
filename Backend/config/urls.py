@@ -32,6 +32,11 @@ urlpatterns = [
 
     # API v1 — Phase 5
     path("api/v1/digital-twin/",     include("apps.digital_twin.urls",   namespace="digital_twin")),
+
+    # API v1 — Phase 6
+    path("api/v1/parts/",            include("apps.inventory.urls",      namespace="inventory")),
+    path("api/v1/service-orders/",   include("apps.estimates.urls",      namespace="estimates")),
+    path("api/v1/",                  include("apps.estimates.urls",      namespace="estimates_standalone")),
 ]
 
 # Serve media files in development
