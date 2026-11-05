@@ -402,3 +402,46 @@ Prerequisites:
 | `GET/POST /api/v1/vehicles/<id>/components/` | Owner | Vehicle components |
 
 ### Next Phase: 3 — Service Orders and Mechanic Inspection
+
+---
+
+## Phase 3 — Service Orders and Mechanic Inspection
+
+| Field | Details |
+|---|---|
+| Phase Number | 3 |
+| Phase Name | Service Orders and Mechanic Inspection |
+| Date | 2026-11-06 |
+| Commit Hash | `fd77f54` |
+| Git Tag | `v2.0.3-inspection-workflow` |
+| Status | COMPLETED |
+
+### Work Completed
+
+- [x] `ServiceOrder` — full state machine, 18 states, `ALLOWED_TRANSITIONS` dict, `can_transition_to()` guard
+- [x] `ServiceOrderEvent` — immutable audit log for every transition
+- [x] `Inspection` — OneToOne to ServiceOrder, status: STARTED → IN_PROGRESS → COMPLETED
+- [x] `InspectionItem` — per-component mechanic observations, Severity choices
+- [x] `SensorReading` — Decimal measurements with unit and optional component link
+- [x] Service layers: `transition_order`, `assign_mechanic`, `start_inspection`, `complete_inspection`, `add_inspection_item`, `add_sensor_reading`
+- [x] Inspection completion auto-transitions order to `ESTIMATE_READY`
+- [x] Role-based access: owner isolation, workshop member checks, mechanic assignment guard
+- [x] 16/16 smoke tests passed — full workflow: submit → accept → receive → assign → inspect → observe → measure → complete → ESTIMATE_READY
+
+### Endpoints Added
+
+| Endpoint | Auth |
+|---|---|
+| `POST/GET /api/v1/service-orders/` | Owner |
+| `GET /api/v1/service-orders/<id>/` | Owner |
+| `POST /api/v1/service-orders/<id>/transition/` | Owner or Workshop member |
+| `POST /api/v1/service-orders/<id>/assign-mechanic/` | Workshop Admin |
+| `GET /api/v1/service-orders/<id>/events/` | Owner or Workshop member |
+| `GET /api/v1/mechanic/orders/` | Mechanic → via `/api/v1/service-orders/mechanic/` |
+| `GET /api/v1/service-centres/<id>/orders/` | Workshop member |
+| `POST/GET/PATCH /api/v1/service-orders/<id>/inspection/` | Mechanic / member |
+| `POST /api/v1/service-orders/<id>/inspection/complete/` | Mechanic |
+| `GET/POST /api/v1/service-orders/<id>/inspection/items/` | Mechanic / member |
+| `GET/POST /api/v1/service-orders/<id>/inspection/readings/` | Mechanic / member |
+
+### Next Phase: 4 — APS AI Diagnostic Engine
