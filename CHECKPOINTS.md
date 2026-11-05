@@ -528,3 +528,33 @@ Prerequisites:
 The `refuse-collection-truck.glb` is a refuse collection truck (garbage truck). It has excellent body, axle, suspension, steering, and wheel geometry (289 named meshes) but no APS, engine, or brake meshes. This is documented and honest — those components show as `UNMAPPED` rather than highlighting incorrect geometry.
 
 ### Next Phase: 6 — Inventory, Spare Parts and Owner Approvals
+
+---
+
+## Phase 6 — Inventory, Spare Parts and Owner Approvals
+
+| Field | Details |
+|---|---|
+| Phase Number | 6 |
+| Phase Name | Inventory, Spare Parts and Owner Approvals |
+| Date | 2026-11-06 |
+| Commit Hash | `8c301b9` |
+| Git Tag | `v2.0.6-inventory-approvals` |
+| Status | COMPLETED |
+
+### Work Completed
+
+- [x] `PartCatalog`, `PartCompatibility` (VERIFIED/PROBABLE/DEPRECATED), `WorkshopInventory`, `InventoryMovement`
+- [x] `reserve_stock()`, `consume_stock()`, `cancel_reservation()` — all `select_for_update()` for concurrency safety
+- [x] `RepairEstimate` (versioned, `recalculate_totals()`), `EstimateItem` (`ApprovalStatus`)
+- [x] Owner decision audit: `owner_decision_by`, `owner_decision_at`, `clarification_note`
+- [x] **Mechanics cannot approve items** — enforced at service layer (returns 403)
+- [x] After all items decided: order auto-transitions (APPROVED / PARTIALLY\_APPROVED / REVISION\_REQUESTED)
+- [x] `get_approved_items()` — gate for work order creation in Phase 7
+- [x] All Decimal for financial values — no float arithmetic
+- [x] 15/15 smoke tests passed
+
+### Key rule verified in tests:
+Grand total = (4500+800) + (850×2+300) = **7,300.00** ✓ Mechanic approve attempt → **403** ✓ Auto-transition to **PARTIALLY_APPROVED** after mixed owner decisions ✓
+
+### Next Phase: 7 — Repair Tracking, Invoices and Payments
