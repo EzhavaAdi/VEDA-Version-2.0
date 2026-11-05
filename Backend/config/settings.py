@@ -48,7 +48,7 @@ THIRD_PARTY_APPS = [
 # VEDA application modules — registered here as they are created in Phase 1+
 LOCAL_APPS: list[str] = [
     # Phase 1
-    # "apps.accounts",
+    "apps.accounts",
     # Phase 2
     # "apps.organizations",
     # "apps.vehicles",
@@ -120,6 +120,11 @@ DATABASES = {
         "PORT": os.getenv("DB_PORT", "5432"),
     }
 }
+
+# ---------------------------------------------------------------------------
+# Custom User Model
+# ---------------------------------------------------------------------------
+AUTH_USER_MODEL = "accounts.User"
 
 # ---------------------------------------------------------------------------
 # Default primary key — UUID where appropriate (set per-model)

@@ -1,22 +1,32 @@
 """
-URL configuration for config project.
+VEDA V2 — Root URL configuration
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+All API endpoints are under /api/v1/
+Django admin is available at /admin/
 """
+
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # Django admin
+    path("admin/", admin.site.urls),
+
+    # API v1
+    path("api/v1/auth/", include("apps.accounts.urls", namespace="accounts")),
+
+    # Future API groups added here as phases complete:
+    # path("api/v1/vehicles/",       include("apps.vehicles.urls",       namespace="vehicles")),
+    # path("api/v1/service-orders/", include("apps.service_orders.urls", namespace="service_orders")),
+    # path("api/v1/inspections/",    include("apps.inspections.urls",    namespace="inspections")),
+    # path("api/v1/diagnosis/",      include("apps.diagnosis.urls",      namespace="diagnosis")),
+    # path("api/v1/parts/",          include("apps.inventory.urls",      namespace="inventory")),
+    # path("api/v1/estimates/",      include("apps.estimates.urls",      namespace="estimates")),
+    # path("api/v1/invoices/",       include("apps.billing.urls",        namespace="billing")),
 ]
+
+# Serve media files in development
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
