@@ -491,3 +491,40 @@ Prerequisites:
 - [x] 6/6 smoke tests passed
 
 ### Next Phase: 5 — Digital Twin and 3D Vehicle Visualization
+
+---
+
+## Phase 5 — Digital Twin and 3D Vehicle Visualization
+
+| Field | Details |
+|---|---|
+| Phase Number | 5 |
+| Phase Name | Digital Twin and 3D Vehicle Visualization |
+| Date | 2026-11-06 |
+| Commit Hash | `07fc433` |
+| Git Tag | `v2.0.5-digital-twin` |
+| Status | COMPLETED |
+
+### Work Completed
+
+**Backend:**
+- [x] `Asset3D`, `ComponentMeshMapping`, `Diagram2D`, `ComponentDiagramMapping` models
+- [x] Digital twin service: `build_scene_state()` maps mesh_identifier → visual_state
+- [x] `/api/v1/digital-twin/assets/`, `/assets/<id>/`, `/assets/<id>/scene/?order_id=`
+- [x] `seed_digital_twin` command — 25 verified mappings using confirmed `anatomical_id` values from GLB
+- [x] BODY component added to catalogue (27 total)
+- [x] APS, Engine, Brakes correctly show as UNMAPPED (no mesh in this asset — this is honest)
+
+**Frontend:**
+- [x] Three.js 0.170, @react-three/fiber 8.17.10, @react-three/drei 9.117.3 installed
+- [x] `TruckViewer3D.tsx` — GLB loading, OrbitControls, per-mesh colour by visual state
+- [x] `DiagnosisViewer.tsx` — two-panel workspace (component list + 3D viewer + info panel)
+- [x] `DiagnosisViewerDemo.tsx` — standalone demo at `/viewer` with mock scene state
+- [x] Status legend (NORMAL/SUSPECTED/MECHANIC\_VERIFIED/REPAIRED/UNMAPPED)
+- [x] Production build: 639 modules, 0 TypeScript errors
+
+### Mesh Mapping Honesty Note
+
+The `refuse-collection-truck.glb` is a refuse collection truck (garbage truck). It has excellent body, axle, suspension, steering, and wheel geometry (289 named meshes) but no APS, engine, or brake meshes. This is documented and honest — those components show as `UNMAPPED` rather than highlighting incorrect geometry.
+
+### Next Phase: 6 — Inventory, Spare Parts and Owner Approvals
