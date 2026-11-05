@@ -558,3 +558,39 @@ The `refuse-collection-truck.glb` is a refuse collection truck (garbage truck). 
 Grand total = (4500+800) + (850×2+300) = **7,300.00** ✓ Mechanic approve attempt → **403** ✓ Auto-transition to **PARTIALLY_APPROVED** after mixed owner decisions ✓
 
 ### Next Phase: 7 — Repair Tracking, Invoices and Payments
+
+---
+
+## Phase 7 — Repair Tracking, Invoices and Mock Payments
+
+| Field | Details |
+|---|---|
+| Phase Number | 7 |
+| Phase Name | Repair Tracking, Invoices and Mock Payments |
+| Date | 2026-11-06 |
+| Commit Hash | `b55442e` |
+| Git Tag | `v2.0.7-repair-billing` |
+| Status | COMPLETED |
+
+### Complete Service Journey (14 state transitions verified)
+
+```
+REQUESTED → ACCEPTED → VEHICLE_RECEIVED → INSPECTION_IN_PROGRESS →
+ESTIMATE_READY → AWAITING_APPROVAL → APPROVED → REPAIR_IN_PROGRESS →
+FINAL_INSPECTION → INVOICED → PAYMENT_PENDING → PAID → VEHICLE_DELIVERED
+```
+
+### Work Completed
+
+- [x] `WorkOrder`, `WorkOrderItem` — built from APPROVED estimate items only
+- [x] Item progress: PENDING → STARTED → COMPLETED/SKIPPED
+- [x] Work order completion → auto-transitions to FINAL\_INSPECTION
+- [x] `Invoice` — sequential number, Decimal totals, tax-aware
+- [x] `Payment` — `transaction_reference` unique (idempotency), MOCK provider
+- [x] Mock payment: server-side completion, never trusts frontend
+- [x] Idempotent: same reference returns existing Payment record
+- [x] `deliver_vehicle()`: PAID → VEHICLE\_DELIVERED
+- [x] Duplicate invoice blocked
+- [x] 15/15 smoke tests passed
+
+### Next Phase: 8 — Dashboards and Notifications (MVP completion)
