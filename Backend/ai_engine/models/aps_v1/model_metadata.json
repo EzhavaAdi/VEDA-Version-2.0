@@ -1,0 +1,37 @@
+{
+  "model_name": "aps_failure_classifier",
+  "model_version": "v1.0.0",
+  "model_type": "XGBoostClassifier",
+  "preprocessing_version": "v1.0.0",
+  "dataset_reference": "Scania APS Failure Dataset (GPL v3, Scania CV AB 2016)",
+  "artifact_location": "C:\\VEDA_2.0\\Backend\\ai_engine\\models\\aps_v1",
+  "n_estimators": 200,
+  "max_depth": 6,
+  "learning_rate": 0.1,
+  "scale_pos_weight": 59.0,
+  "test_precision": 0.8533,
+  "test_recall": 0.8533,
+  "test_f1": 0.8533,
+  "test_roc_auc": 0.9945,
+  "confusion_matrix": [
+    [
+      15570,
+      55
+    ],
+    [
+      55,
+      320
+    ]
+  ],
+  "business_cost_fp": 550,
+  "business_cost_fn": 27500,
+  "business_total_cost": 28050,
+  "n_train_samples": 60000,
+  "n_test_samples": 16000,
+  "feature_count": 170,
+  "predicted_classes": {
+    "0": "neg (no APS failure)",
+    "1": "pos (APS failure)"
+  },
+  "scope_warning": "This model classifies APS-related failures only. It does not diagnose all truck faults and must not be presented as a universal vehicle diagnostic system."
+}

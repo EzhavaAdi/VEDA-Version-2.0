@@ -94,6 +94,14 @@ Backend/ai_engine/models/*.pth
 Backend/ai_engine/models/*.h5
 Backend/ai_engine/models/*.onnx
 Backend/ai_engine/models/*.bin
+# Also exclude nested versioned artifact directories
+Backend/ai_engine/models/**/*.pkl
+Backend/ai_engine/models/**/*.joblib
+Backend/ai_engine/models/**/*.pt
+Backend/ai_engine/models/**/*.pth
+Backend/ai_engine/models/**/*.h5
+Backend/ai_engine/models/**/*.onnx
+Backend/ai_engine/models/**/*.bin
 
 # Preprocessing artifacts
 Backend/ai_engine/preprocessing/*.pkl

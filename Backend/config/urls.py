@@ -26,7 +26,9 @@ urlpatterns = [
     path("api/v1/service-orders/",   include("apps.service_orders.urls", namespace="service_orders")),
     path("api/v1/service-orders/",   include("apps.inspections.urls",    namespace="inspections")),
 
-    # Future phases (uncomment as implemented):
+    # API v1 — Phase 4
+    path("api/v1/diagnosis/",        include("apps.diagnosis.urls",      namespace="diagnosis")),
+    path("api/v1/service-orders/",   include("apps.diagnosis.urls",      namespace="diagnosis_orders")),
     # path("api/v1/diagnosis/",      include("apps.diagnosis.urls",      namespace="diagnosis")),
     # path("api/v1/parts/",          include("apps.inventory.urls",      namespace="inventory")),
     # path("api/v1/estimates/",      include("apps.estimates.urls",      namespace="estimates")),
