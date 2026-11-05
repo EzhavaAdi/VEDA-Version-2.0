@@ -37,6 +37,11 @@ urlpatterns = [
     path("api/v1/parts/",            include("apps.inventory.urls",      namespace="inventory")),
     path("api/v1/service-orders/",   include("apps.estimates.urls",      namespace="estimates")),
     path("api/v1/",                  include("apps.estimates.urls",      namespace="estimates_standalone")),
+    # API v1 — Phase 7
+    path("api/v1/service-orders/",   include("apps.work_orders.urls",    namespace="work_orders")),
+    path("api/v1/service-orders/",   include("apps.billing.urls",        namespace="billing")),
+    path("api/v1/",                  include("apps.work_orders.urls",    namespace="work_orders_standalone")),
+    path("api/v1/",                  include("apps.billing.urls",        namespace="billing_standalone")),
 ]
 
 # Serve media files in development
