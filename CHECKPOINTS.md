@@ -269,3 +269,91 @@ git switch --detach v2.0.0-foundation
 *CHECKPOINTS.md is maintained throughout the entire VEDA V2 development lifecycle.*
 *Each completed phase appends a new checkpoint section to this file.*
 *Never mark a checkpoint complete without a verified Git commit hash.*
+
+---
+
+## Phase 1 — Backend Authentication
+
+### Checkpoint Information
+
+| Field | Details |
+|---|---|
+| Project | VEDA V2 |
+| Phase Number | 1 |
+| Phase Name | Backend Authentication |
+| Date | 2026-11-06 |
+| Developer / Agent | Kiro |
+| Git Branch | main |
+| Commit Hash | `82c6300` |
+| Git Tag | `v2.0.1-auth` |
+| Status | COMPLETED |
+
+### Work Completed
+
+- [x] Custom `User` model — UUID PK, `phone_number` (unique), `full_name`, `AbstractBaseUser`, no username field.
+- [x] `Role` model — UUID PK, FK to User, choices: OWNER, WORKSHOP_ADMIN, MECHANIC, VEDA_ADMIN. Unique together constraint.
+- [x] `OTP` model — UUID PK, SHA-256 hashed code, `expires_at`, `attempt_count`, `is_used`. Secure code generation via `secrets` module.
+- [x] `AUTH_USER_MODEL = "accounts.User"` set in `settings.py`.
+- [x] `apps.accounts` registered in `INSTALLED_APPS`.
+- [x] Service layer (`services.py`): `request_otp`, `verify_otp`, `update_profile`, `assign_role`, `remove_role`. All wrapped in `@transaction.atomic`.
+- [x] Typed exception hierarchy: `AuthError`, `OTPExpiredError`, `OTPInvalidError`, `OTPMaxAttemptsError`, `OTPAlreadyUsedError`.
+- [x] CONSOLE OTP provider (dev only) — logs raw code to server terminal. Never enabled in production.
+- [x] Serializers: `RequestOTPSerializer`, `VerifyOTPSerializer`, `ProfileSetupSerializer`, `UserSerializer`.
+- [x] Views: `RequestOTPView`, `VerifyOTPView`, `MeView` (GET + PATCH).
+- [x] URL routes: `/api/v1/auth/request-otp/`, `/verify-otp/`, `/token/refresh/`, `/me/`.
+- [x] Root `config/urls.py` updated with API v1 prefix and future route stubs.
+- [x] Permission classes: `IsOwner`, `IsWorkshopAdmin`, `IsMechanic`, `IsVedaAdmin`, `IsWorkshopMember`, `IsOwnerOrWorkshopMember`.
+- [x] Django admin registered for `User`, `Role`, `OTP`.
+- [x] Migration `accounts/0001_initial` created and applied.
+- [x] 19 total migrations applied on clean database.
+
+### Files Created or Modified
+
+| File | Action |
+|---|---|
+| `Backend/apps/accounts/models.py` | Created |
+| `Backend/apps/accounts/services.py` | Created |
+| `Backend/apps/accounts/serializers.py` | Created |
+| `Backend/apps/accounts/views.py` | Created |
+| `Backend/apps/accounts/urls.py` | Created |
+| `Backend/apps/accounts/permissions.py` | Created |
+| `Backend/apps/accounts/admin.py` | Created |
+| `Backend/apps/accounts/migrations/0001_initial.py` | Created |
+| `Backend/config/settings.py` | Modified — AUTH_USER_MODEL, apps.accounts |
+| `Backend/config/urls.py` | Modified — API v1 routes |
+
+### Testing and Validation
+
+| Test | Result | Notes |
+|---|---|---|
+| `manage.py check` | **PASS** | 0 issues |
+| Migrations | **PASS** | 19 applied cleanly |
+| Smoke tests | **PASS** | 8/8 — request-otp, invalid phone, wrong OTP, unauthenticated /me/, invalid refresh, missing body |
+| E2E auth flow | **PASS** | 7/7 — full flow: request OTP → verify → JWT → /me/ → profile update → token refresh → reused OTP rejected |
+
+### Git Checkpoint
+
+| Check | Status |
+|---|---|
+| Commit created | YES — `82c6300` |
+| Tag created | YES — `v2.0.1-auth` |
+| Branch pushed | YES — `origin/main` |
+| Tag pushed | YES — `origin/v2.0.1-auth` |
+
+### Rollback
+
+```bash
+git switch --detach v2.0.1-auth    # inspect
+git switch -c recovery/phase-1 v2.0.1-auth  # recover
+git revert 82c6300                 # undo if needed
+```
+
+### Next Phase
+
+**Phase 2 — Service Centres, Vehicles and Component Catalogue**
+
+Prerequisites:
+- [x] Phase 1 reviewed and approved.
+- [x] Auth endpoints verified working.
+- [x] JWT tokens issued and validated.
+- [ ] User approval to begin Phase 2.
