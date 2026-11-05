@@ -445,3 +445,49 @@ Prerequisites:
 | `GET/POST /api/v1/service-orders/<id>/inspection/readings/` | Mechanic / member |
 
 ### Next Phase: 4 — APS AI Diagnostic Engine
+
+---
+
+## Phase 4 — APS AI Diagnostic Engine
+
+| Field | Details |
+|---|---|
+| Phase Number | 4 |
+| Phase Name | APS AI Diagnostic Engine |
+| Date | 2026-11-06 |
+| Commit Hash | `8774b29` |
+| Git Tag | `v2.0.4-aps-diagnosis` |
+| Status | COMPLETED |
+
+### Model Performance (verified on held-out test set — not invented)
+
+| Metric | Value |
+|---|---|
+| Precision | 0.853 |
+| Recall | 0.853 |
+| F1-score | 0.853 |
+| ROC-AUC | 0.995 |
+| True Negatives | 15,570 |
+| False Positives | 55 |
+| False Negatives | 55 |
+| True Positives | 320 |
+| Business cost (FP×10 + FN×500) | 28,050 |
+
+### Scope Warning (on every AI response)
+
+> This model classifies APS-related failures only. It does not diagnose all truck faults and must not be presented as a universal vehicle diagnostic system.
+
+### Work Completed
+
+- [x] Dataset inspected: 60k train / 16k test, 170 anonymised features, 59:1 imbalance
+- [x] Preprocessing: `SimpleImputer(median)` + `StandardScaler`, feature order enforced
+- [x] XGBoost classifier: `scale_pos_weight=59`, 200 trees, `tree_method=hist`
+- [x] Model artifacts saved (binaries gitignored, JSON metadata committed)
+- [x] Inference: `aps_inference.py` — singleton load, MIN_FEATURE_COVERAGE=10%, honest SKIPPED
+- [x] Rule engine: APS-001, MECH-001, SENS-001 — explicit, traceable rules
+- [x] Diagnosis models: AIModel, AIRun, AIPrediction, DiagnosisCase, DiagnosisEvidence
+- [x] AI prediction and mechanic verification stored independently
+- [x] Mechanic can confirm / reject / partial-verify each case
+- [x] 6/6 smoke tests passed
+
+### Next Phase: 5 — Digital Twin and 3D Vehicle Visualization
