@@ -166,7 +166,7 @@ All dataset files are excluded from Git by `.gitignore`.
 | Backend tests | N/A | Backend apps not yet implemented (Phase 1+) |
 | Frontend tests | N/A | Test framework not yet configured (Phase 1+) |
 | API integration | N/A | Not yet implemented |
-| Database connection | N/A | PostgreSQL not yet installed |
+| Database connection | **PASS** | PostgreSQL 18.6 connected, 18 migrations applied |
 | AI tests | N/A | Model not yet trained |
 | `manage.py check` | **PASS** | 0 issues, 0 silenced |
 | TypeScript compilation | **PASS** | 0 errors |
@@ -218,7 +218,7 @@ git push origin v2.0.0-foundation
 
 ### Known Issues and Blockers
 
-- [ ] **BLOCKER: PostgreSQL not installed.** Must be installed before `python manage.py migrate` can run. Download from https://www.postgresql.org/download/windows/ then run the three SQL setup commands in `Backend/.env.example`.
+- [x] **BLOCKER: PostgreSQL not installed.** ✅ RESOLVED — PostgreSQL 18.6 installed, `veda_v2_dev` database created, permissions granted, 18 migrations applied successfully.
 - [ ] **ACTION REQUIRED: engine.max and Kenwood.max licenses.** These files are in the workspace but not committed. Their source and license must be confirmed before they can be committed to a public repository. They are currently gitignored via `3-D model/*.max`.
 - [ ] **ACTION REQUIRED: caliper.obj license.** Origin unclear — verify before production use.
 - [ ] **PENDING: GitHub push.** Remote `origin` will be configured and pushed once authentication is confirmed.
@@ -249,10 +249,10 @@ git switch --detach v2.0.0-foundation
 - [x] Git repository initialized and foundation commit created.
 - [x] Django scaffold operational (`manage.py check` passes).
 - [x] Frontend scaffold operational (build passes).
-- [ ] PostgreSQL installed and `veda_v2_dev` database created.
-- [ ] GitHub push completed and verified.
-- [ ] `Backend/.env` updated with real local PostgreSQL password.
-- [ ] `python manage.py migrate` runs without errors.
+- [x] PostgreSQL installed and `veda_v2_dev` database created.
+- [x] GitHub push completed and verified — `main` branch and `v2.0.0-foundation` tag on remote.
+- [x] `Backend/.env` updated with real local PostgreSQL password.
+- [x] `python manage.py migrate` — 18 migrations applied successfully.
 
 ### Completion Approval
 
@@ -262,7 +262,7 @@ git switch --detach v2.0.0-foundation
 | Testing reviewed | YES |
 | Git checkpoint verified | YES |
 | Documentation updated | YES |
-| Ready for next phase | Pending PostgreSQL install and GitHub push |
+| Ready for next phase | **YES** — all Phase 0 prerequisites met |
 
 ---
 
