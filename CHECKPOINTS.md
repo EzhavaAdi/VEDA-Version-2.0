@@ -357,3 +357,48 @@ Prerequisites:
 - [x] Auth endpoints verified working.
 - [x] JWT tokens issued and validated.
 - [ ] User approval to begin Phase 2.
+
+---
+
+## Phase 2 — Service Centres, Vehicles and Component Catalogue
+
+| Field | Details |
+|---|---|
+| Phase Number | 2 |
+| Phase Name | Service Centres, Vehicles and Component Catalogue |
+| Date | 2026-11-06 |
+| Commit Hash | `9cf24cb` |
+| Git Tag | `v2.0.2-vehicles-centres` |
+| Status | COMPLETED |
+
+### Work Completed
+
+- [x] `ServiceCentre` model — UUID PK, VerificationStatus, registered_by FK
+- [x] `WorkshopMembership` — user + centre unique, Designation choices (ADMIN, MECHANIC, STAFF)
+- [x] `Vehicle` model — UUID PK, owner FK, registration_number unique, VehicleCategory, VehicleDocument
+- [x] `Component` catalogue — hierarchical (parent FK), `component_code` stable identifier, VehicleSystem choices
+- [x] `VehicleComponent` — links component instances to specific vehicles
+- [x] 26 seed components via `seed_components` management command (APS, brakes, engine, suspension, axle, steering, tyres, electrical)
+- [x] Service layers: `vehicles/services.py`, `organizations/services.py`, `components/services.py`
+- [x] Serializers, views, URL routes for all three apps
+- [x] Owner isolation enforced: owners access only their own vehicles
+- [x] Workshop admin permission required for member management
+- [x] 3 migrations applied cleanly
+- [x] 21/21 smoke tests passed
+
+### Endpoints Added
+
+| Endpoint | Auth | Notes |
+|---|---|---|
+| `GET /api/v1/components/` | Public | Filter by `?system=` or `?tree=1` |
+| `GET /api/v1/components/<code>/` | Public | Component by code |
+| `GET /api/v1/service-centres/` | Public | Verified centres only |
+| `POST /api/v1/service-centres/` | Any auth | Register + auto WORKSHOP_ADMIN role |
+| `GET /api/v1/service-centres/mine/` | Auth | User's centres |
+| `GET /api/v1/service-centres/<id>/` | Member | Centre detail |
+| `GET/POST /api/v1/service-centres/<id>/members/` | Workshop Admin | Manage members |
+| `GET/POST /api/v1/vehicles/` | Owner | List / register |
+| `GET/PATCH/DELETE /api/v1/vehicles/<id>/` | Owner | Detail / update / deactivate |
+| `GET/POST /api/v1/vehicles/<id>/components/` | Owner | Vehicle components |
+
+### Next Phase: 3 — Service Orders and Mechanic Inspection
