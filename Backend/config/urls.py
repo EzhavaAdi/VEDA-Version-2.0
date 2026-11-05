@@ -17,6 +17,11 @@ urlpatterns = [
     # API v1
     path("api/v1/auth/", include("apps.accounts.urls", namespace="accounts")),
 
+    # Phase 2
+    path("api/v1/vehicles/",         include("apps.vehicles.urls",       namespace="vehicles")),
+    path("api/v1/service-centres/",  include("apps.organizations.urls",  namespace="organizations")),
+    path("api/v1/components/",       include("apps.components.urls",     namespace="components")),
+
     # Future API groups added here as phases complete:
     # path("api/v1/vehicles/",       include("apps.vehicles.urls",       namespace="vehicles")),
     # path("api/v1/service-orders/", include("apps.service_orders.urls", namespace="service_orders")),
