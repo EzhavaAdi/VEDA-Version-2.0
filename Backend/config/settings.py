@@ -58,6 +58,8 @@ LOCAL_APPS: list[str] = [
     "apps.inspections",
     # Phase 4
     "apps.diagnosis",
+    # Phase 5
+    "apps.digital_twin",
     # Phase 2
     # "apps.organizations",
     # "apps.vehicles",

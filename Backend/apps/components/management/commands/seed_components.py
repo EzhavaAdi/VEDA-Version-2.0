@@ -184,8 +184,15 @@ COMPONENTS = [
         "parent": "TYRES",
     },
     # -------------------------------------------------------------------------
-    # Electrical
+    # Body and Cab
     # -------------------------------------------------------------------------
+    {
+        "code": "BODY",
+        "name": "Body and Cab",
+        "system": VehicleSystem.BODY,
+        "parent": None,
+        "description": "Vehicle body, cab structure, doors and glazing.",
+    },
     {
         "code": "ELECTRICAL",
         "name": "Electrical System",
