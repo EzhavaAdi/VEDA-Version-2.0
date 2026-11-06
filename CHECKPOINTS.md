@@ -594,3 +594,47 @@ FINAL_INSPECTION → INVOICED → PAYMENT_PENDING → PAID → VEHICLE_DELIVERED
 - [x] 15/15 smoke tests passed
 
 ### Next Phase: 8 — Dashboards and Notifications (MVP completion)
+
+---
+
+## Phase 8 — Dashboards and Frontend
+
+| Field | Details |
+|---|---|
+| Phase Number | 8 |
+| Phase Name | Dashboards and Frontend |
+| Date | 2026-11-06 |
+| Commit Hash | `07b38dc` |
+| Git Tag | `v2.0.8-dashboards` |
+| Status | COMPLETED |
+
+### Work Completed
+
+**Auth & Routing:**
+- [x] `AuthContext` — JWT storage in localStorage, role detection, `primaryRole`, `setTokens`/`logout`
+- [x] `LoginPage` — 3-step: phone → OTP → profile setup → role redirect
+- [x] `ProtectedRoute` — unauthenticated redirect, optional role enforcement
+- [x] Role-based root redirect: OWNER→`/owner`, WORKSHOP_ADMIN/MECHANIC→`/workshop`
+
+**API Services (7 modules):**
+- [x] `auth.service.ts` — requestOtp, verifyOtp, getMe, updateProfile
+- [x] `vehicles.service.ts`, `service-orders.service.ts`, `estimates.service.ts`
+- [x] `billing.service.ts`, `inspections.service.ts`, `organisations.service.ts`
+
+**Shared Components:**
+- [x] `AppShell`, `Topbar`, `Sidebar` (role-specific navigation)
+- [x] `StatusBadge` — colour-coded for all 18 service order states
+- [x] `PageHeader`, `LoadingState`, `EmptyState`, `ErrorState`
+
+**Dashboards:**
+- [x] `OwnerDashboard` — stats, recent orders, real API data
+- [x] `OwnerApprovals` — itemised estimate decisions (approve/reject per line)
+- [x] `MechanicDashboard` — assigned orders, next-action per status
+- [x] `WorkshopDashboard` — incoming queue, active jobs, one-click accept
+
+**Build:**
+- [x] 0 TypeScript errors
+- [x] 9 code-split chunks (lazy loading per dashboard)
+- [x] VEDA landing page with hero text from DESIGN.md
+
+### Next Phase: 9 — Testing, Security & MVP Release
