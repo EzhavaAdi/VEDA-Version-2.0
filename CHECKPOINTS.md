@@ -638,3 +638,55 @@ FINAL_INSPECTION → INVOICED → PAYMENT_PENDING → PAID → VEHICLE_DELIVERED
 - [x] VEDA landing page with hero text from DESIGN.md
 
 ### Next Phase: 9 — Testing, Security & MVP Release
+
+---
+
+## Phase 9 — Testing, Security Review and MVP Release
+
+| Field | Details |
+|---|---|
+| Phase Number | 9 |
+| Phase Name | Testing, Security Review and MVP Release |
+| Date | 2026-11-06 |
+| Commit Hash | `1c04f44` |
+| Git Tag | `v2.0.9-mvp-release` |
+| Status | COMPLETED |
+
+### Test Results
+
+| Suite | Tests | Result |
+|---|---|---|
+| Auth — OTP, JWT, roles | 28 | PASS |
+| Data isolation — owner, workshop | 11 | PASS |
+| State machine — transitions, audit | 13 | PASS |
+| AI integrity — coverage, honesty | 9 | PASS |
+| Estimates + inventory | 9 | PASS |
+| **Total** | **67** | **ALL PASS (4.35s)** |
+
+### Security Review
+
+| Check | Result |
+|---|---|
+| All views have `permission_classes` | PASS — 12/12 |
+| `AllowAny` only on genuinely public endpoints | PASS |
+| No hardcoded secrets in source | PASS — all via `os.environ` |
+| `.env`, `.venv/`, datasets, model binaries gitignored | PASS |
+| MOCK/CONSOLE providers safe by default | PASS |
+| Frontend build — 0 TypeScript errors | PASS |
+
+### Complete Checkpoint History
+
+| Phase | Name | Tag | Status |
+|---|---|---|---|
+| 0 | Project Foundation | `v2.0.0-foundation` | COMPLETE |
+| 1 | Authentication | `v2.0.1-auth` | COMPLETE |
+| 2 | Vehicles & Service Centres | `v2.0.2-vehicles-centres` | COMPLETE |
+| 3 | Inspection Workflow | `v2.0.3-inspection-workflow` | COMPLETE |
+| 4 | APS AI Engine | `v2.0.4-aps-diagnosis` | COMPLETE |
+| 5 | Digital Twin | `v2.0.5-digital-twin` | COMPLETE |
+| 6 | Inventory & Approvals | `v2.0.6-inventory-approvals` | COMPLETE |
+| 7 | Repair & Billing | `v2.0.7-repair-billing` | COMPLETE |
+| 8 | Dashboards | `v2.0.8-dashboards` | COMPLETE |
+| 9 | MVP Release | `v2.0.9-mvp-release` | **COMPLETE** |
+
+**VEDA V2 MVP — All 9 phases delivered, tested and pushed to GitHub.**
