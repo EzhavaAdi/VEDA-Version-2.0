@@ -3,287 +3,244 @@
 
 **An AI-assisted heavy vehicle inspection, diagnostics and service management platform.**
 
-VEDA V2 aims to connect heavy vehicle owners with registered service centres through an intelligent platform that combines AI-assisted diagnostics, mechanic inspections, interactive vehicle visualisation, spare-parts recommendations and transparent repair management.
+> **Current Status:** MVP complete (v2.0.9). All 9 development phases delivered and tested locally.
 
 ---
 
-## 1. Project Overview
+## What Is VEDA?
 
-Heavy commercial vehicles require regular inspection and maintenance. Identifying potential faults, communicating inspection findings, sourcing compatible spare parts and managing repair approvals can be fragmented across different service providers.
+VEDA connects heavy vehicle owners with registered service centres through a platform that combines AI-assisted diagnostics, mechanic inspections, interactive 3D vehicle visualisation, spare-parts inventory, transparent repair estimates, owner-controlled approvals, and integrated payment records.
 
-VEDA V2 aims to bring these activities into one integrated platform.
+VEDA is a decision-support platform. It does not replace professional mechanical inspection. Every diagnostic finding, recommendation and repair action is traceable.
 
-The platform combines:
+---
 
-- AI-assisted failure prediction.
-- Manual mechanic inspection and verification.
-- Component-level diagnostic evidence.
-- Interactive 2D and 3D vehicle visualisation.
-- Service-centre spare-parts inventory.
-- Transparent repair estimates.
-- Owner-controlled repair approvals.
-- Service history and repair tracking.
+## What Is Actually Built (MVP)
 
-VEDA is designed as a decision-support platform. It does not replace professional mechanical inspection.
+### Backend — Python / Django / PostgreSQL
 
-## 2. Core Users
+| Area | Status | Details |
+|---|---|---|
+| Authentication | ✅ Complete | Phone OTP (6-digit, SHA-256 hashed, 5-min expiry, attempt limiting), JWT access + refresh tokens |
+| User Roles | ✅ Complete | OWNER, WORKSHOP_ADMIN, MECHANIC, VEDA_ADMIN — role-based permission classes on every endpoint |
+| Vehicles | ✅ Complete | Owner-isolated vehicle registration, update, deactivation |
+| Service Centres | ✅ Complete | Registration, membership management, workshop admin access control |
+| Component Catalogue | ✅ Complete | Hierarchical catalogue (27 components), `component_code` stable identifiers |
+| Service Orders | ✅ Complete | 18-state machine (REQUESTED → VEHICLE_DELIVERED), validated transitions, immutable audit trail |
+| Mechanic Inspection | ✅ Complete | Per-component observations, severity ratings, numeric sensor readings |
+| AI Engine — APS | ✅ Complete | Scania APS failure classifier (XGBoost, F1=0.853, ROC-AUC=0.995), honest SKIPPED when data insufficient |
+| Diagnostic Rules | ✅ Complete | APS-001 (AI prediction), MECH-001 (HIGH/CRITICAL observation), SENS-001 (out-of-range readings) |
+| Digital Twin — Backend | ✅ Complete | Asset3D registry, 25 verified mesh mappings from GLB `anatomical_id` values |
+| Inventory | ✅ Complete | Part catalogue, compatibility records, workshop stock, `select_for_update()` reservations |
+| Estimates | ✅ Complete | Versioned repair estimates, Decimal totals, mechanics cannot approve on behalf of owners |
+| Owner Approvals | ✅ Complete | Per-item approve/reject/clarify, auto-transition to APPROVED/PARTIALLY_APPROVED |
+| Work Orders | ✅ Complete | Built from APPROVED items only, item progress tracking |
+| Invoices | ✅ Complete | Sequential invoice numbers, tax-aware, Decimal throughout |
+| Payments | ✅ Complete | MOCK provider (dev), idempotent by `transaction_reference` |
+| Vehicle Delivery | ✅ Complete | PAID → VEHICLE_DELIVERED terminal state |
 
-### Vehicle Owners
-- Register and manage vehicles.
-- Submit service requests.
-- View inspection findings.
-- Review diagnostic evidence.
-- Explore suspected components.
-- Review repair estimates.
-- Approve or reject individual repair items.
-- Track repair progress and invoices.
+### Frontend — React / TypeScript / Vite
 
-### Service Centres
-- Register and manage their service centre.
-- Manage mechanics and inventory.
-- Receive service requests.
-- Prepare estimates.
-- Track repair operations.
-- Maintain service records.
+| Area | Status | Details |
+|---|---|---|
+| Authentication UI | ✅ Complete | Phone → OTP → profile setup → role-based redirect |
+| Auth Context | ✅ Complete | JWT storage, role detection, `primaryRole`, protected routes |
+| Owner Dashboard | ✅ Complete | Stats, recent orders, vehicle list — real API data |
+| Owner Approvals | ✅ Complete | Itemised estimate decisions with approve/reject per line |
+| Mechanic Dashboard | ✅ Complete | Assigned orders, context-aware next-action buttons |
+| Workshop Admin Dashboard | ✅ Complete | Incoming queue, one-click accept, active job list |
+| 3D Truck Viewer | ✅ Complete | React Three Fiber, GLB loading, per-mesh colour by diagnostic status |
+| Status Legend | ✅ Complete | NORMAL / SUSPECTED / MECHANIC_VERIFIED / REPAIRED / UNMAPPED |
+| API Service Layer | ✅ Complete | 7 typed service modules covering all backend endpoints |
+| Landing Page | ✅ Complete | "UNDERSTAND THE MACHINE. BEFORE IT STOPS." — DESIGN.md hero |
 
-### Mechanics
-- Inspect assigned vehicles.
-- Enter inspection findings.
-- Record suspected faults.
-- Review AI-generated evidence.
-- Recommend repairs and spare parts.
-- Update repair progress.
-- Complete final inspection records.
+### Tests
 
-### Administrators
-- Manage users and service centres.
-- Monitor platform activity.
-- Maintain component catalogues.
-- Review system operations and reports.
+| Suite | Count | Result |
+|---|---|---|
+| Auth (OTP, JWT, roles) | 28 | ✅ Pass |
+| Data isolation (owner, workshop) | 11 | ✅ Pass |
+| State machine (transitions, audit) | 13 | ✅ Pass |
+| AI integrity (coverage, honesty) | 9 | ✅ Pass |
+| Estimates / inventory | 9 | ✅ Pass |
+| **Total** | **67** | **✅ All pass** |
 
-## 3. Technology Stack
+---
 
-| Layer | Technology |
-|---|---|
-| Frontend | React, TypeScript, Vite |
-| UI | Tailwind CSS / Custom CSS |
-| Routing | React Router |
-| 3D Visualisation | Three.js, React Three Fiber, Drei |
-| Charts | Recharts |
-| Backend | Python, Django, Django REST Framework |
-| Database | PostgreSQL |
-| AI/ML | Python, pandas, NumPy, scikit-learn, XGBoost, PyTorch where required |
-| Model Persistence | Joblib where appropriate |
-| Version Control | Git and GitHub |
+## Technology Stack
 
-The architecture is modular so additional AI models and vehicle systems can be integrated progressively.
+| Layer | Technology | Version |
+|---|---|---|
+| Backend | Python, Django, Django REST Framework | 3.11.9 / 5.1.4 / 3.15.2 |
+| Auth | djangorestframework-simplejwt | 5.3.1 |
+| Database | PostgreSQL | 18.6 |
+| AI/ML | XGBoost, scikit-learn, pandas, NumPy | 2.1.3 / 1.5.2 / 2.2.3 / 2.1.3 |
+| Frontend | React, TypeScript, Vite | 18.3 / 5.6 / 6.0 |
+| 3D Viewer | Three.js, React Three Fiber, Drei | 0.170 / 8.17 / 9.117 |
+| Testing | pytest-django, factory-boy | 4.9.0 / 3.3.1 |
+| Version Control | Git / GitHub | — |
 
-## 4. Diagnostic Workflow
+---
 
-```text
-Vehicle Owner
-     |
-     v
-Service Request
-     |
-     v
-Registered Service Centre
-     |
-     v
-Mechanic Inspection
-     |
-     +-------------------+
-     |                   |
-     v                   v
-Manual Findings     AI Predictions
-     |                   |
-     +---------+---------+
-               |
-               v
-     Diagnostic Evidence
-               |
-               v
-     Suspected Components
-               |
-               v
-    Spare Parts & Estimate
-               |
-               v
-      Owner Approval
-               |
-               v
-       Repair Process
-               |
-               v
-    Final Inspection
-               |
-               v
-      Invoice & Payment
-```
-
-AI predictions and mechanic findings are maintained as separate evidence sources.
-
-## 5. AI Scope
-
-### Initial AI Proof of Concept
-
-The Scania APS Failure dataset will be used for the initial APS-related failure classification task.
-
-Important limitations:
-
-- APS failure classification is not universal vehicle diagnosis.
-- Predictions do not independently prove an exact component failure.
-- Mechanic inspection and additional evidence are required.
-- Remaining Useful Life (RUL) will only be implemented when an appropriate dataset and validated model are available.
-
-Future versions may incorporate additional vehicle fault datasets and diagnostic models.
-
-## 6. 3D Vehicle Visualisation
-
-VEDA includes an interactive vehicle visualisation layer.
-
-Initial asset collection:
-
-| Asset | File |
-|---|---|
-| Main truck candidate | `Kenwood.max` |
-| Refuse collection truck | `refuse-collection-truck.glb` |
-| Trailer | `truck-trailer.glb` |
-| Engine candidate | `engine.max` |
-| Brake component | `caliper.obj` |
-
-These assets are initial candidates, not verified engineering models. Their licences, mesh structures, conversion compatibility and performance must be checked before production use.
-
-Future versions may include more detailed chassis, suspension, drivetrain and component assemblies.
-
-## 7. Project Structure
-
-```text
-VEDA-V2/
-│
-├── Backend/
-│
-├── Frontend/
-│
-├── 3-D model/
-│   ├── caliper.obj
-│   ├── engine.max
-│   ├── Kenwood.max
-│   ├── refuse-collection-truck.glb
-│   └── truck-trailer.glb
-│
-├── docs/
-│   ├── PRD.md
-│   ├── ARCHITECTURE.md
-│   ├── RULES.md
-│   ├── DESIGN.md
-│   ├── TASKS.md
-│   └── MEMORY.md
-│
-├── Steering/
-│
-├── CHECKPOINTS_TEMPLATE.md
-├── FIRST_PROMPT_FOR_KIRO.md
-└── README.md
-```
-
-Additional folders for datasets, processed models, images and diagrams may be introduced as development progresses.
-
-## 8. Development Setup
-
-Development will initially run locally.
+## Local Setup
 
 ### Prerequisites
 
-- Python
-- Node.js and npm
-- PostgreSQL
+- Python 3.11+
+- Node.js 18+
+- PostgreSQL 15+ (tested on 18.6)
 - Git
-- A code editor such as Kiro
 
 ### Backend
 
-The backend will use a dedicated Python virtual environment.
-
-```bash
+```powershell
 cd Backend
 
+# Create virtual environment
 python -m venv .venv
+.venv\Scripts\Activate.ps1       # Windows PowerShell
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Configure environment
+copy .env.example .env
+# Edit .env — set DB_PASSWORD and DJANGO_SECRET_KEY
+
+# Database setup (run in psql as postgres superuser)
+# CREATE DATABASE veda_v2_dev;
+# CREATE USER veda_user WITH PASSWORD 'your_password';
+# GRANT ALL PRIVILEGES ON DATABASE veda_v2_dev TO veda_user;
+# GRANT ALL ON SCHEMA public TO veda_user;
+
+# Run migrations
+python manage.py migrate
+
+# Seed component catalogue and 3D asset mappings
+python manage.py seed_components
+python manage.py seed_digital_twin
+
+# Train the APS classifier (required before AI diagnosis works)
+python ai_engine/models/train_aps.py
+
+# Start development server
+python manage.py runserver
 ```
 
-Activate it on Windows:
+Backend runs at `http://localhost:8000`
 
-```powershell
-.venv\Scripts\Activate.ps1
-```
-
-Install project dependencies using the backend dependency file once it has been created.
+OTP codes print to the terminal (CONSOLE provider — development only).
 
 ### Frontend
 
-```bash
+```powershell
 cd Frontend
+
 npm install
 npm run dev
 ```
 
-The exact commands and environment variables will be documented as implementation progresses.
+Frontend runs at `http://localhost:5173`
 
-Do not commit `.env` files, passwords, API keys or private credentials.
+### Run Tests
 
-## 9. Development Roadmap
-
-| Phase | Focus |
-|---|---|
-| 0 | Repository inspection and environment setup |
-| 1 | Authentication and user roles |
-| 2 | Service centres, vehicles and components |
-| 3 | Service requests and mechanic inspection |
-| 4 | APS AI integration |
-| 5 | 2D and 3D vehicle visualisation |
-| 6 | Inventory and repair approvals |
-| 7 | Repair workflow, invoices and mock payments |
-| 8 | Dashboards and notifications |
-| 9 | Testing, security and MVP release |
-
-Refer to `docs/TASKS.md` for the detailed task breakdown.
-
-## 10. Documentation
-
-The `docs/` directory contains the primary project specifications:
-
-- `PRD.md` — Product requirements.
-- `ARCHITECTURE.md` — System architecture.
-- `RULES.md` — Development constraints.
-- `DESIGN.md` — Design system and UI direction.
-- `TASKS.md` — Development roadmap.
-- `MEMORY.md` — Persistent project decisions.
-
-`CHECKPOINTS_TEMPLATE.md` defines the version-control and recovery process.
-
-## 11. Version Control
-
-Git and GitHub are used to maintain project history.
-
-Development must follow these principles:
-
-- Meaningful commits.
-- Annotated phase tags.
-- Tested checkpoints.
-- No force-pushing.
-- No accidental deletion or overwriting of user work.
-- No committing secrets or private datasets.
-- Documented rollback procedures.
-
-## 12. Current Status
-
-**Version:** 2.0  
-**Stage:** Pre-development preparation
-
-Documentation and initial 3D asset collection have been prepared. Repository inspection, local environment setup, implementation and AI integration remain to be completed.
-
-Features documented in the roadmap must not be considered implemented until they have been developed and tested.
+```powershell
+cd Backend
+python -m pytest tests/ -v
+```
 
 ---
 
-**VEDA V2 — Evidence-driven diagnostics. Transparent repairs. Smarter vehicle maintenance.**
+## API Overview
+
+Base URL: `http://localhost:8000/api/v1/`
+
+| Group | Prefix |
+|---|---|
+| Authentication | `/auth/` |
+| Vehicles | `/vehicles/` |
+| Service Centres | `/service-centres/` |
+| Components | `/components/` |
+| Service Orders | `/service-orders/` |
+| Diagnosis | `/diagnosis/` |
+| Digital Twin | `/digital-twin/` |
+| Parts Catalogue | `/parts/` |
+| Invoices / Payments | `/invoices/` |
+
+All endpoints require JWT Bearer authentication except public read-only endpoints (component catalogue, verified service centres, 3D asset metadata, parts catalogue).
+
+---
+
+## AI Scope — Important Limitations
+
+VEDA's initial AI model uses the **Scania APS Failure dataset** (GPL v3, Scania CV AB 2016) for APS-related failure classification only.
+
+**This model does not:**
+- Diagnose all truck component failures
+- Independently identify a specific faulty component
+- Provide Remaining Useful Life estimates
+- Replace professional mechanic inspection
+
+The model returns `SKIPPED` (not a fabricated prediction) when fewer than 10% of the 170 input features are present. Every AI response includes a scope warning.
+
+**Verified test metrics (held-out test set):**
+
+| Metric | Value |
+|---|---|
+| Precision | 0.853 |
+| Recall | 0.853 |
+| F1-score | 0.853 |
+| ROC-AUC | 0.995 |
+| Business cost (FP×10 + FN×500) | 28,050 |
+
+---
+
+## 3D Assets
+
+| Asset | Format | License | Mesh Components |
+|---|---|---|---|
+| `refuse-collection-truck.glb` | GLB (glTF 2.0) | CC0 1.0 (Innerscene Corp) | 289 named meshes, 25 mapped to VEDA component codes |
+| `truck-trailer.glb` | GLB (glTF 2.0) | CC0 1.0 (grab3d.com) | 7 nodes (body + wheels) |
+| `caliper.obj` | Wavefront OBJ | License unverified | Single mesh |
+| `engine.max` | 3ds Max binary | License unverified — not committed | N/A |
+| `Kenwood.max` | 3ds Max binary | License unverified — not committed | N/A |
+
+Components without a verified mesh mapping display as **UNMAPPED** rather than highlighting incorrect geometry.
+
+---
+
+## Development Roadmap
+
+| Phase | Focus | Tag |
+|---|---|---|
+| 0 | Repository setup, environment, scaffolding | `v2.0.0-foundation` |
+| 1 | Phone OTP authentication, JWT, roles | `v2.0.1-auth` |
+| 2 | Service centres, vehicles, component catalogue | `v2.0.2-vehicles-centres` |
+| 3 | Service orders state machine, mechanic inspection | `v2.0.3-inspection-workflow` |
+| 4 | APS AI diagnostic engine, rule engine | `v2.0.4-aps-diagnosis` |
+| 5 | Digital twin, 3D viewer, mesh mappings | `v2.0.5-digital-twin` |
+| 6 | Inventory, spare parts, owner approvals | `v2.0.6-inventory-approvals` |
+| 7 | Work orders, invoices, mock payments, delivery | `v2.0.7-repair-billing` |
+| 8 | Frontend dashboards (Owner, Mechanic, Workshop) | `v2.0.8-dashboards` |
+| 9 | Tests, security review, MVP release | `v2.0.9-mvp-release` |
+
+---
+
+## Security Notes
+
+- OTP codes are stored as SHA-256 hashes only — the raw code is never persisted
+- JWT tokens are stateless; refresh tokens rotate on use
+- All secrets are read from `.env` — never hardcoded
+- `.env`, `.venv/`, datasets and model binaries are all gitignored
+- MOCK payment provider and CONSOLE OTP must never be enabled in production
+- Each role class is applied at the view level — backend enforces all access control
+
+---
+
+## Repository
+
+**GitHub:** https://github.com/EzhavaAdi/VEDA-Version-2.0
+
+---
+
+*VEDA V2 — Evidence-driven diagnostics. Transparent repairs. Smarter vehicle maintenance.*
