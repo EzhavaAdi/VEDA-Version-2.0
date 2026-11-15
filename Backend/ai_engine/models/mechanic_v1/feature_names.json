@@ -1,0 +1,12 @@
+[
+  "brake_pad_mm",
+  "tyre_tread_mm",
+  "engine_oil_temp_c",
+  "engine_oil_pressure_bar",
+  "suspension_travel_mm",
+  "wheel_bearing_noise",
+  "chassis_cracks",
+  "compactor_hydraulic_pressure_bar",
+  "body_damage_score",
+  "fuel_pressure_bar"
+]

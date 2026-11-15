@@ -47,14 +47,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     isLoading:   true,
   })
 
-  // Restore from localStorage on mount
+  // Restore from localStorage on mount — then verify with /me/ for fresh roles
   useEffect(() => {
     const access  = localStorage.getItem(ACCESS_KEY)
     const userStr = localStorage.getItem(USER_KEY)
     if (access && userStr) {
       try {
         const user = JSON.parse(userStr) as AuthUser
-        setState({ user, accessToken: access, isLoading: false })
+        // Set immediately so the app doesn't flash login
+        setState({ user, accessToken: access, isLoading: true })
+        // Then fetch fresh data from server to get up-to-date roles
+        fetch(`${import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000/api/v1'}/auth/me/`, {
+          headers: { Authorization: `Bearer ${access}` }
+        })
+          .then(r => r.ok ? r.json() : null)
+          .then(freshUser => {
+            if (freshUser) {
+              const merged = { ...user, ...freshUser }
+              localStorage.setItem(USER_KEY, JSON.stringify(merged))
+              setState({ user: merged, accessToken: access, isLoading: false })
+            } else {
+              setState({ user, accessToken: access, isLoading: false })
+            }
+          })
+          .catch(() => {
+            setState({ user, accessToken: access, isLoading: false })
+          })
       } catch {
         localStorage.clear()
         setState({ user: null, accessToken: null, isLoading: false })

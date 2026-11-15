@@ -1,0 +1,68 @@
+{
+  "model_name": "mechanic_component_classifier",
+  "model_version": "v1.0.0",
+  "model_type": "RandomForestClassifier",
+  "components": [
+    "wheels",
+    "suspension",
+    "engine",
+    "cab",
+    "chassis",
+    "rear_compactor",
+    "refuse_body",
+    "brake_caliper",
+    "tyres"
+  ],
+  "model_3d_map": {
+    "wheels": {
+      "file": "components/axle_wheels.glb",
+      "type": "glb"
+    },
+    "suspension": {
+      "file": "components/axle_suspension.glb",
+      "type": "glb"
+    },
+    "engine": {
+      "file": "engine.glb",
+      "type": "glb"
+    },
+    "cab": {
+      "file": "components/cab_assembly.glb",
+      "type": "glb"
+    },
+    "chassis": {
+      "file": "components/chassis.glb",
+      "type": "glb"
+    },
+    "rear_compactor": {
+      "file": "components/rear_compactor.glb",
+      "type": "glb"
+    },
+    "refuse_body": {
+      "file": "components/refuse_body.glb",
+      "type": "glb"
+    },
+    "brake_caliper": {
+      "file": "caliper.obj",
+      "type": "obj"
+    },
+    "tyres": null
+  },
+  "feature_names": [
+    "brake_pad_mm",
+    "tyre_tread_mm",
+    "engine_oil_temp_c",
+    "engine_oil_pressure_bar",
+    "suspension_travel_mm",
+    "wheel_bearing_noise",
+    "chassis_cracks",
+    "compactor_hydraulic_pressure_bar",
+    "body_damage_score",
+    "fuel_pressure_bar"
+  ],
+  "feature_count": 10,
+  "n_train": 4795,
+  "n_test": 1199,
+  "test_accuracy": 0.9208,
+  "scope_warning": "This model is trained on synthetic data for demonstration purposes. It should not be used for real vehicle diagnostics without validation against real inspection records."
+}

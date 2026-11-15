@@ -45,13 +45,19 @@ export function LoginPage() {
     setLoading(true)
     try {
       const res = await authService.verifyOtp(phone, otp)
+      // Store tokens first so the /me/ call has auth headers
       setTokens(res.access, res.refresh, res.user)
 
-      if (res.user.is_new_user || !res.user.full_name) {
+      // Always fetch fresh user from /me/ — roles may have been assigned
+      // after the JWT was minted (e.g. admin assigned role before first login)
+      const freshUser = await authService.getMe()
+      setTokens(res.access, res.refresh, { ...res.user, ...freshUser })
+
+      if (!freshUser.full_name) {
         setStep('profile')
         return
       }
-      redirectByRole(res.user.roles)
+      redirectByRole(freshUser.roles ?? [])
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Invalid OTP.')
     } finally {

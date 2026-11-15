@@ -37,6 +37,9 @@ urlpatterns = [
     path("api/v1/parts/",            include("apps.inventory.urls",      namespace="inventory")),
     path("api/v1/service-orders/",   include("apps.estimates.urls",      namespace="estimates")),
     path("api/v1/",                  include("apps.estimates.urls",      namespace="estimates_standalone")),
+
+    # Shop (public)
+    path("api/v1/shop/",             include("apps.inventory.shop_urls", namespace="shop")),
     # API v1 — Phase 7
     path("api/v1/service-orders/",   include("apps.work_orders.urls",    namespace="work_orders")),
     path("api/v1/service-orders/",   include("apps.billing.urls",        namespace="billing")),
