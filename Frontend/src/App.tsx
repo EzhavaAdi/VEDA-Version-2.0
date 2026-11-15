@@ -1145,10 +1145,16 @@ function DeveloperPage() {
     <div style={{ paddingTop: '56px', maxWidth: '720px', margin: '0 auto', padding: '120px 32px 80px' }}>
       <p style={mono}>Developer</p>
       <h2 style={heading}>Built by</h2>
+      <div style={{ background: '#111', border: '1px solid #1e1e1e', borderRadius: '12px', padding: '32px', marginBottom: '16px' }}>
+        <h3 style={{ color: '#F4F4F0', fontSize: '1.3rem', fontWeight: 800, margin: '0 0 4px' }}>Adhish Prasad</h3>
+        <p style={{ color: '#B8E36A', fontSize: '0.75rem', fontFamily: 'DM Mono, monospace', margin: '0 0 16px', letterSpacing: '0.08em' }}>Backend Developer · AI Engine · System Architecture · VEDA V2</p>
+        <p style={{ color: '#B0B0A8', fontSize: '0.95rem', lineHeight: 1.75, margin: 0 }}>Designed and built the full backend architecture — Django REST API, PostgreSQL database, APS AI diagnostic engine (XGBoost, F1=0.853), mechanic component classifier, service order state machine, and all data models across 12 application modules.</p>
+      </div>
+
       <div style={{ background: '#111', border: '1px solid #1e1e1e', borderRadius: '12px', padding: '32px', marginBottom: '28px' }}>
-        <h3 style={{ color: '#F4F4F0', fontSize: '1.4rem', fontWeight: 800, margin: '0 0 4px' }}>Harshu</h3>
-        <p style={{ color: '#B8E36A', fontSize: '0.75rem', fontFamily: 'DM Mono, monospace', margin: '0 0 20px', letterSpacing: '0.08em' }}>Lead Developer · VEDA V2</p>
-        <p style={{ color: '#B0B0A8', fontSize: '0.95rem', lineHeight: 1.75, margin: 0 }}>Designed and built VEDA V2 — a full-stack AI-assisted heavy vehicle diagnostics platform, covering backend API design, AI model integration, 3D visualisation, and role-based dashboards.</p>
+        <h3 style={{ color: '#F4F4F0', fontSize: '1.3rem', fontWeight: 800, margin: '0 0 4px' }}>Harsh Barbhaya</h3>
+        <p style={{ color: '#B8E36A', fontSize: '0.75rem', fontFamily: 'DM Mono, monospace', margin: '0 0 16px', letterSpacing: '0.08em' }}>Frontend Developer · 3D Visualisation · UI/UX · VEDA V2</p>
+        <p style={{ color: '#B0B0A8', fontSize: '0.95rem', lineHeight: 1.75, margin: 0 }}>Built the frontend platform — React Three Fiber 3D truck viewer with component highlighting, mechanic diagnostic interface, spare parts shop, visual diagnosis overlay, and the animated VEDA landing page.</p>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
         {[
