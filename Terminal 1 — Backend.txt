@@ -1,0 +1,9 @@
+Terminal 1 — Backend:
+cd C:\VEDA_2.0\Backend
+.venv\Scripts\python.exe manage.py runserver
+
+
+
+Terminal 2 — Frontend:
+cd C:\VEDA_2.0\Frontend
+npm run dev

@@ -64,7 +64,7 @@
 }
 
 html {
-  font-size: 16px;
+  font-size: 17px;
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
 }
@@ -79,7 +79,38 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Reduced motion */
+/* Nav link underline animation */
+.nav-link {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  padding: 4px 0;
+  text-decoration: none;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  transition: width 240ms ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+.nav-link.active {
+  font-weight: 700;
+}
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

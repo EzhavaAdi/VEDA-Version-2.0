@@ -158,7 +158,7 @@ deselect_all()
 total = 0
 for obj in bpy.context.scene.objects:
     if obj.type == 'MESH':
-        obj.select_set(True)
+        obj.select_set(True)     
         total += 1
 print(f"  Selected {total} objects")
 export_selected("full_truck.glb")
